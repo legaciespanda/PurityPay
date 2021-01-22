@@ -13,29 +13,43 @@ import '@firebase/auth';
 const SplashScreen = ({navigation}) => {
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
-    const [isLoggedIn, setisLoggedIn] = useState();
-    const [initializing, setInitializing] = useState(true);
+    // const [isLoggedIn, setisLoggedIn] = useState();
+    // const [initializing, setInitializing] = useState(true);
 
   //afetr loading the splash screen for 5 seconds, take the user to the main activity
     useEffect(()=>{
-
         setTimeout(() => {
           setAnimating(false);
-          !isLoggedIn? navigation.replace("LoginActivity"):navigation.replace("HomeActivity")
+          //!isLoggedIn? navigation.replace("LoginActivity"):navigation.replace("HomeActivity")
+            __isTheUserAuthenticated();
         }, 6000);
     })
 
-         function onAuthStateChanged(isLoggedIn) {
-              setUser(isLoggedIn);
-              if (initializing) setInitializing(false);
-      }
+  //        function onAuthStateChanged(isLoggedIn) {
+  //             setisLoggedIn(isLoggedIn);
+  //             if (initializing) setInitializing(false);
+  //     }
 
-      useEffect(() => {
-        const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-        return subscriber; // unsubscribe on unmount
-      }, []);
+  //     useEffect(() => {
+  //       const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+  //       return subscriber; // unsubscribe on unmount
+  //     }, []);
 
-  if (initializing) return null;
+  // if (initializing) return null;
+
+
+  //check if user is authenticated
+    __isTheUserAuthenticated = () => {
+    let user = firebase.auth().currentUser.uid;
+        if (user) {
+          //Alert.alert("Logged in already", user);
+          navigation.replace("HomeActivity")
+          //console.log(tag,  user);
+        } else {
+          //Alert.alert("Not Logged in", user);
+          navigation.replace("LoginActivity")
+        }
+      };
 
   return (
     <View style={styles.container}>

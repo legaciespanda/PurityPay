@@ -44,7 +44,45 @@ import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
 
+import firebase from '../config/fb';
+import '@firebase/auth';
+
+
+
 const HomeActivity = ({ navigation }) => {
+
+  //log user out of the app
+  const __logout = ()=>{
+
+            Alert.alert(
+              "Log Out!",
+              "Are you sure really want to log out?",
+              [
+                {
+                  text: "No",
+                  onPress: () => null,
+                  style: "cancel",
+                },
+                { text: "Yes", onPress: () => takeToLogin()},
+              ],
+              { cancelable: false }
+            );
+  }
+
+  const takeToLogin = ()=>{
+    firebase.auth().signOut()
+    navigation.navigate("LoginActivity");
+  }
+
+   //check if user is authenticated
+    __isTheUserAuthenticated = () => {
+    let user = firebase.auth().currentUser.uid;
+        if (user) {
+          Alert.alert("Logged in already", user);
+        } else {
+          Alert.alert("Not Logged in");
+        }
+      };
 
   const closeDrawer =  () => {
     drawer._root.close()
@@ -118,7 +156,8 @@ const HomeActivity = ({ navigation }) => {
                   <Text style={styles.iconText}>Tithe</Text>
                 </Button>
 
-                <Button large iconLeft light style={styles.iconBg}>
+                <Button onPress={() => __logout()} 
+                 large iconLeft light style={styles.iconBg}>
                   <Icon style={styles.iconText} name="md-card" />
                   <Text style={styles.iconText}>Offering</Text>
                 </Button>
@@ -153,7 +192,7 @@ const HomeActivity = ({ navigation }) => {
                 style={{ backgroundColor: AppStyles.color.row, height: 125 }}
               >
                 <Button
-                  onPress={() => Alert.alert("Hellow")}
+                  onPress={() => __isTheUserAuthenticated()}
                   large
                   iconLeft
                   light

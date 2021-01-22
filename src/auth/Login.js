@@ -31,7 +31,7 @@ const LoginActivity = ({navigation}) => {
         isValidPassword: true,
     });
 
-    //sign user in
+    //sign user in and take them to the home activity
     const __signIn= async () => {
     try {
       let response = await firebase.auth().signInWithEmailAndPassword(
@@ -39,9 +39,9 @@ const LoginActivity = ({navigation}) => {
         data.password
       )
       if (response) {
-        Alert.alert("Logged In Success ✅")
+        //Alert.alert("Logged In Success ✅")
         console.log(response);
-         //navigation.navigate("LoginActivity")
+         navigation.replace("HomeActivity")
 
       }
     } catch (e) {
