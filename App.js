@@ -20,6 +20,7 @@ import PayOffering from "./src/activities/payoffering";
 //auth
 import LoginActivity from './src/auth/Login';
 import RegisterActivity from './src/auth/Register';
+import ForgotActivity from "./src/auth/forgot";
 
 
 
@@ -104,7 +105,23 @@ return (
         // Hiding header for Splash Screen
         options={{ headerShown: false }}
       />
-      
+
+      <Stack.Screen
+        name="ForgotActivity"
+        component={ForgotActivity}
+        // Hiding header for Splash Screen
+        options={{
+          title: "", //Set Header Title
+          headerStyle: {
+            backgroundColor: AppStyles.color.main, //Set Header color
+          },
+          headerTintColor: "#fff", //Set Header text color
+          headerTitleStyle: {
+            fontWeight: "bold", //Set Header text style
+          },
+        }}
+      />
+
       <Stack.Screen
         name="PayTithe"
         component={PayTithe}

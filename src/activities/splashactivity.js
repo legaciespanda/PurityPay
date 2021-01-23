@@ -1,59 +1,73 @@
 // Import React and Component
-import React, {useState, useEffect} from 'react';
-import { ActivityIndicator, View, StyleSheet, Image, Text, Alert } from 'react-native';
+import React, { useState, useEffect } from "react";
+import {
+  ActivityIndicator,
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  Alert,
+} from "react-native";
 import { AppStyles } from "../config/styles";
 
 // import HomeActivity from './src/activities/mainactivity';
 
-import firebase from '../config/fb';
-import '@firebase/auth';
+import firebase from "../config/fb";
+import "@firebase/auth";
 
-
-
-const SplashScreen = ({navigation}) => {
+const SplashScreen = ({ navigation }) => {
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
-    // const [isLoggedIn, setisLoggedIn] = useState();
-    // const [initializing, setInitializing] = useState(true);
+  const [isLoggedIn, setisLoggedIn] = useState();
+  const [initializing, setInitializing] = useState(true);
 
   //afetr loading the splash screen for 5 seconds, take the user to the main activity
-    useEffect(()=>{
-        setTimeout(() => {
-          setAnimating(false);
-          //!isLoggedIn? navigation.replace("LoginActivity"):navigation.replace("HomeActivity")
-            __isTheUserAuthenticated();
-        }, 6000);
-    })
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimating(false);
+      // isLoggedIn
+      //   ? navigation.replace("HomeActivity")
+      //   : navigation.replace("LoginActivity");
+      //   //__isTheUserAuthenticated();
+      const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+      return subscriber;
+    }, 4000);
+  });
 
-  //        function onAuthStateChanged(isLoggedIn) {
-  //             setisLoggedIn(isLoggedIn);
-  //             if (initializing) setInitializing(false);
-  //     }
+  // useEffect(() => {
+  //   const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+  //   return subscriber; // unsubscribe on unmount
+  // }, []);
 
-  //     useEffect(() => {
-  //       const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
-  //       return subscriber; // unsubscribe on unmount
-  //     }, []);
+  //check if user has been signed in already
+  function onAuthStateChanged(isLoggedIn) {
+    setisLoggedIn(isLoggedIn);
+    if (isLoggedIn) {
+      navigation.replace("HomeActivity");
+    } else {
+      navigation.replace("LoginActivity");
+    }
+    // if (initializing) setInitializing(false);
+  }
 
   // if (initializing) return null;
 
-
   //check if user is authenticated
-    __isTheUserAuthenticated = () => {
-    let user = firebase.auth().currentUser.uid;
-        if (user) {
-          //Alert.alert("Logged in already", user);
-          navigation.replace("HomeActivity")
-          //console.log(tag,  user);
-        } else {
-          //Alert.alert("Not Logged in", user);
-          navigation.replace("LoginActivity")
-        }
-      };
+  // __isTheUserAuthenticated = () => {
+  // let user = firebase.auth().currentUser.uid;
+  //   if (user === null) {
+  //       //Alert.alert("Logged in already", user);
+  //       navigation.replace("HomeActivity")
+  //       //console.log(tag,  user);
+  //     } else {
+  //       //Alert.alert("Not Logged in", user);
+  //       navigation.replace("LoginActivity")
+  //     }
+  //   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Initializing PurityPay...</Text>
+      <Text style={styles.header}>Initializing Church Donate...</Text>
       <Image
         source={require("../../assets/loader.gif")}
         style={{ width: "90%", resizeMode: "contain", margin: 30 }}
@@ -84,7 +98,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 20,
-    color:  AppStyles.color.deepblue,
+    color: AppStyles.color.deepblue,
     fontWeight: "bold",
     paddingVertical: 14,
   },

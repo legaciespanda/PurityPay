@@ -185,7 +185,7 @@ const HomeActivity = ({ navigation }) => {
                   style={styles.iconBg}
                 >
                   <Icon style={styles.iconText} name="md-card" />
-                  <Text style={styles.iconText}>Building</Text>
+                  <Text style={styles.iconText}>Donation</Text>
                 </Button>
               </Row>
               <Row
