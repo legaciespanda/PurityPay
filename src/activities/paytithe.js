@@ -1,4 +1,4 @@
-import React, {Component, useState } from "react";
+import React, { Component, useState } from "react";
 import {
   SafeAreaView,
   StyleSheet,
@@ -9,30 +9,35 @@ import {
 } from "react-native";
 import { AppStyles } from "../config/styles";
 
-
 import Rave from "react-native-rave-webview";
-import { WebView } from "react-native-webview";
 import PaystackWebView from "react-native-paystack-webview";
 
-
-import { Container, Header, Content, Footer,
-   FooterTab, Button, Icon, Text, Badge, Item , 
-   Card, CardItem, Body,Input,Textarea, Form, Picker,Toast  } from 'native-base';
-
-
-
+import {
+  Container,
+  Header,
+  Content,
+  Footer,
+  FooterTab,
+  Button,
+  Icon,
+  Text,
+  Badge,
+  Item,
+  Card,
+  CardItem,
+  Body,
+  Input,
+  Textarea,
+  Form,
+  Picker,
+  Toast,
+} from "native-base";
 
 const PayTithe = ({ navigation }) => {
-
-
-
   const [billingEmail, setbillingEmail] = useState("");
   const [amount, setamount] = useState("");
   const [billingName, setbillingName] = useState("");
   const [billingMobile, setbillingMobile] = useState("");
-
-
-
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -94,26 +99,25 @@ const PayTithe = ({ navigation }) => {
               </CardItem>
 
               <CardItem footer button>
-                <Rave
+                <PaystackWebView
                   buttonText="Pay Now"
-                  raveKey="FLWPUBK-924d5a473354facb54dbf37dc5d28f73-X"
-                  amount={20000}
-                  billingEmail="ayoshokz@gmail.com"
-                  billingMobile="08101274387"
+                  showPayButton={true}
+                  paystackKey="pk_live_c207061ee3df0bdcfe0a6230d0f1dc10055ec3ca"
+                  amount={amount}
+                  billingEmail="paystackwebview@something.com"
+                  billingMobile="09787377462"
                   billingName="Oluwatobi Shokunbi"
-                  ActivityIndicatorColor="green"
-                  onCancel={() => console.log()}
-                  onSuccess={(transactionRef) => console.log(transactionRef)}
-                  btnStyles={{
-                    backgroundColor: "green",
-                    width: 100,
-                    alignContent: "center",
+                  ActivityIndicatorColor={AppStyles.color.main}
+                  SafeAreaViewContainer={{ marginTop: 5 }}
+                  SafeAreaViewContainerModal={{ marginTop: 5 }}
+                  onCancel={(e) => {
+                    console.log(e);
                   }}
-                  textStyles={{ color: "white", alignSelf: "center" }}
-                  onError={() => {
-                    alert("something went wrong");
+                  refNumber={"kkj"}
+                  onSuccess={(res) => {
+                    // handle response here
                   }}
-                  txref="1234"
+                  autoStart={false}
                 />
               </CardItem>
             </Card>
@@ -128,7 +132,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: AppStyles.color.white,
-  }
+  },
 });
 
 export default PayTithe;

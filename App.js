@@ -90,7 +90,16 @@ return (
         name="ProfileActivity"
         component={ProfileActivity}
         // Hiding header for Splash Screen
-        options={{ headerShown: false }}
+        options={{
+          title: "Profile - Purity Pay", //Set Header Title
+          headerStyle: {
+            backgroundColor: AppStyles.color.main, //Set Header color
+          },
+          headerTintColor: "#fff", //Set Header text color
+          headerTitleStyle: {
+            fontWeight: "bold", //Set Header text style
+          },
+        }}
       />
 
       <Stack.Screen
